@@ -22,6 +22,37 @@ def draw():
         screen.draw.text("GAME OVER", (WIDTH/2, HEIGHT/2), fontaize=80, color="red")
 
 
+import random
+
+def move_coin():
+    coin.y += 4
+    if coin.y > HEIGHT:
+        reset_coin()
+           
+def reset_coin():
+    coin.pos = (random.randint(50, WIDTH-50),0)
+
+def move_impostor():
+    impostor.y += 6
+    if impostor.y > HEIGHT:
+        reset_impostor()
+
+def reset_impostor():
+    impostor.pos = (random.randint(50, WIDTH-50),0)
+    
+def check_collision():
+        global score, game_over
+        
+    if player.colliderect(coin):
+        score += 1
+        reset_coin()
+        
+    if player.colliderect(impostor):
+        game_over = True
+        
+        
+
+
 def update():
     if game_over:
         return
@@ -30,4 +61,14 @@ def update():
         player.x -= 5
 
     if keyboard.right:
-        player.x += 5                                                                               
+        player.x += 5
+        
+    if player.x < 40:
+        player.x = 40
+        
+    if player.x > WIDTH - 40:
+        player.x = WIDTH - 40
+        
+    move_coin
+    move_impostor
+    check_collision                                                                               
